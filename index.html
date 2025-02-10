@@ -5,20 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine?</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap">
-    <link rel="stylesheet" href="style.css"> <!-- Link to external stylesheet -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #FADADD;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #gif-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #question {
+            font-family: 'Sacramento', cursive;
+            font-size: 52px;
+            margin-top: 20px;
+        }
+
+        #options {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 26px;
+            font-family: 'Sacramento', cursive;
+            background-color: #FB607F;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
-        <div id="image-container"></div> <!-- Container for displaying images -->
+        <div id="gif-container">
+            <img id="current-gif" src="https://media.tenor.com/9WBtYYSQoAwAAAAj/maxwell-spinning.gif" alt="Maxwell Spinning">
+        </div>
         <div id="text-container">
-            <div id="question">Will you be my valentine?</div> <!-- Question -->
+            <div id="question">Will you be my valentine?</div>
             <div id="options">
-                <button id="yes-button" onclick="selectOption('yes')">Yes</button> <!-- Yes button -->
-                <button id="no-button" onclick="selectOption('no')">No</button> <!-- No button -->
+                <button id="yes-button" onclick="selectOption('yes')">Yes</button>
+                <button id="no-button" onclick="selectOption('no')">No</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script> <!-- Link to external JavaScript file -->
+    <script>
+        function selectOption(option) {
+            if (option === 'yes') {
+                flashRainbowColors(function() {
+                    document.getElementById('question').style.display = 'none';
+                    document.getElementById('options').style.display = 'none';
+                    document.getElementById('current-gif').src = "https://media.tenor.com/dTkq2FK0nMcAAAAi/heart-love.gif";
+                });
+            } else if (option === 'no') {
+                document.getElementById('no-button').innerText = 'You sure?'; 
+                var yesButton = document.getElementById('yes-button');
+                var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
+                var newSize = parseFloat(currentFontSize) * 1.5;
+                yesButton.style.fontSize = newSize + 'px';
+            }
+        }
+
+        function flashRainbowColors(callback) {
+            var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
+            var i = 0;
+            var interval = setInterval(function() {
+                document.body.style.backgroundColor = colors[i];
+                i = (i + 1) % colors.length;
+            }, 200);
+            setTimeout(function() {
+                clearInterval(interval);
+                document.body.style.backgroundColor = '';
+                if (callback) callback();
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
